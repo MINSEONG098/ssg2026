@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신세계리테일랩 냉장 간편식 프로모션 통합 웹 체크리스트</title>
+  <style>
+    /* --------------------------------------------------------------------------
+       1. DESIGN TOKENS & LUXURY THEME SYSTEM
+       -------------------------------------------------------------------------- */
+    :root {
+      --bg-base: #0f172a;
+      --bg-surface: #1e293b;
+      --bg-card: rgba(255, 255, 255, 0.96);
+      --bg-glass: rgba(15, 23, 42, 0.75);
+      
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --primary-glow: rgba(59, 130, 246, 0.25);
+      
+      --accent-rose: #be123c;
+      --accent-burgundy: #881337;
+      --accent-gold: #d97706;
+      
+      --status-success: #059669;
+      --status-warning: #d97706;
+      --status-danger: #e11d48;
+      --status-info: #2563eb;
+      
+      --text-main: #0f172a;
+      --text-sub: #475569;
+      --text-muted: #94a3b8;
+      --text-white: #f8fafc;
+      
+      --border-color: #e2e8f0;
+      --border-dark: rgba(255, 255, 255, 0.12);
+      
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      
+      --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 8px 16px -4px rgba(15, 23, 42, 0.08), 0 4px 6px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+      --shadow-glow: 0 0 20px rgba(190, 18, 60, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 60px;
+    }
+
+    button, input, select, textarea {
+      font-family: inherit;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* --------------------------------------------------------------------------
+       2. HEADER & GLASSMORPHISM NAVBAR
+       -------------------------------------------------------------------------- */
+    .header {
+      background: linear-gradient(135deg, #090d16 0%, #0f172a 50%, #1e1b4b 100%);
+      color: var(--text-white);
+      padding: 1.1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .header-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .brand-logo {
+      background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+      color: white;
+      font-weight: 900;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 10px rgba(190, 18, 60, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .header-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-subtitle {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Cyber Live D-Day Badge */
+    .dday-badge {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.45rem 1rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-variant-numeric: tabular-nums;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .dday-badge span {
+      color: #fef08a;
+      font-weight: 800;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.95rem;
+    }
+
+    .btn {
+      padding: 0.55rem 1rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--bg-base);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .btn-light:hover {
+      background: #f8fafc;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn-outline-light {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+    .btn-outline-light:hover {
+      background: rgba(255, 255, 255, 0.18);
+      border-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+    }
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+      transform: translateY(-1px);
+    }
+
+    /* --------------------------------------------------------------------------
+       3. MAIN CONTAINER & DASHBOARD CARDS
+       -------------------------------------------------------------------------- */
+    .container {
+      max-width: 1440px;
+      margin: 1.8rem auto;
+      padding: 0 1.2rem;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+      padding: 1.35rem;
+      box-shadow: var(--shadow-md);
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent-rose));
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-2px);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .meta-card h3 {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .meta-list {
+      list-style: none;
+      font-size: 0.88rem;
+    }
+
+    .meta-list li {
+      margin-bottom: 0.45rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px dashed #f1f5f9;
+    }
+
+    .meta-list li:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .meta-list .label {
+      color: var(--text-sub);
+      font-weight: 500;
+    }
+
+    .meta-list .value {
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    /* Executive Progress Gauge */
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 0.6rem;
+    }
+
+    .progress-title {
+      font-size: 0.88rem;
+      color: var(--text-sub);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .progress-percentage {
+      font-size: 2.2rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+
+    .progress-bar-container {
+      height: 14px;
+      background: #e2e8f0;
+      border-radius: 7px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      padding: 2px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb 0%, #10b981 100%);
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    .store-progress-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.6rem;
+      text-align: center;
+    }
+
+    .store-progress-item {
+      background: #f8fafc;
+      padding: 0.6rem 0.4rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      transition: background 0.2s;
+    }
+
+    .store-progress-item:hover {
+      background: #f1f5f9;
+    }
+
+    .store-progress-item .store-name {
+      color: var(--text-sub);
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-bottom: 0.15rem;
+    }
+
+    .store-progress-item .store-val {
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: var(--bg-base);
+    }
+
+    /* Executive Compliance Card */
+    .compliance-card {
+      background: linear-gradient(135deg, #fff5f5 0%, #fff1f2 100%);
+      border: 1px solid #fecaca;
+    }
+
+    .compliance-card h3 {
+      color: var(--accent-rose);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-weight: 800;
+    }
+
+    .compliance-list {
+      list-style: none;
+      font-size: 0.83rem;
+      color: #881337;
+    }
+
+    .compliance-list li {
+      margin-bottom: 0.4rem;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.35;
+    }
+
+    .compliance-list li::before {
+      content: "🚨";
+      position: absolute;
+      left: 0;
+      top: -1px;
+      font-size: 0.75rem;
+    }
+
+    /* --------------------------------------------------------------------------
+       4. TOOLBOX & SEGMENTED FILTER BAR
+       -------------------------------------------------------------------------- */
+    .filter-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 1.1rem;
+      margin-bottom: 1.8rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .filter-group-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-box {
+      flex: 1 1 280px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.88rem;
+      background: #f8fafc;
+      transition: all 0.2s;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      background: white;
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Segmented Tab Switcher */
+    .tab-group {
+      display: flex;
+      background: #f1f5f9;
+      padding: 0.25rem;
+      border-radius: var(--radius-sm);
+      gap: 0.25rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .tab-btn {
+      padding: 0.45rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-sub);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+
+    .select-filter {
+      padding: 0.55rem 0.9rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #f8fafc;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .select-filter:focus {
+      outline: none;
+      border-color: var(--primary-light);
+      background: white;
+    }
+
+    /* --------------------------------------------------------------------------
+       5. MAIN CONTENT LAYOUT (CHECKLIST CARDS & SIDEBAR)
+       -------------------------------------------------------------------------- */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 67% 31%;
+      }
+    }
+
+    /* Checklist Section Header */
+    .checklist-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .checklist-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--bg-base);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .checklist-title span {
+      background: var(--primary);
+      color: white;
+      font-size: 0.8rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .checklist-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    /* Checklist Item Card - Luxury Style */
+    .checklist-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 5px solid #cbd5e1;
+      border-radius: var(--radius-sm);
+      padding: 1.1rem 1.25rem;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .checklist-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateX(3px);
+    }
+
+    .checklist-card.priority-CRITICAL {
+      border-left-color: var(--status-danger);
+    }
+    .checklist-card.priority-HIGH {
+      border-left-color: var(--status-warning);
+    }
+    .checklist-card.priority-MEDIUM {
+      border-left-color: var(--status-info);
+    }
+
+    .checklist-card.status-completed {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+      border-color: #bbf7d0;
+      opacity: 0.9;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-checkbox-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    /* Custom Stylish Checkbox */
+    .card-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #cbd5e1;
+      border-radius: 6px;
+      margin-top: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: white;
+      flex-shrink: 0;
+    }
+
+    .card-checkbox:checked {
+      background-color: var(--status-success);
+      border-color: var(--status-success);
+      box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+    }
+
+    .card-checkbox:checked::after {
+      content: "✓";
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 900;
+    }
+
+    .item-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.4;
+      transition: color 0.2s;
+    }
+
+    .checklist-card.status-completed .item-title {
+      text-decoration: line-through;
+      color: #64748b;
+    }
+
+    /* Badges */
+    .badge-group {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.3px;
+    }
+
+    .badge-stage { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .badge-cat { background: #f1f5f9; color: #334155; border: 1px solid #e2e8f0; }
+    .badge-store { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-CRITICAL { background: #ffe4e6; color: #9f1239; border: 1px solid #fecdd3; animation: glow-red 2s infinite; }
+    .badge-HIGH { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+    .badge-MEDIUM { background: #e0e7ff; color: #3730a3; border: 1px solid #c7d2fe; }
+
+    @keyframes glow-red {
+      0%, 100% { box-shadow: 0 0 0 rgba(225, 29, 72, 0); }
+      50% { box-shadow: 0 0 6px rgba(225, 29, 72, 0.3); }
+    }
+
+    .item-desc {
+      font-size: 0.86rem;
+      color: var(--text-sub);
+      margin-bottom: 0.85rem;
+      padding-left: 2.1rem;
+      line-height: 1.45;
+    }
+
+    .card-bottom {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.6rem;
+      padding-top: 0.65rem;
+      border-top: 1px dashed var(--border-color);
+      font-size: 0.8rem;
+    }
+
+    .item-meta-info {
+      color: var(--text-sub);
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      font-weight: 500;
+    }
+
+    .status-select {
+      font-size: 0.78rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .status-select.pending { background: #f1f5f9; color: #475569; }
+    .status-select.in_progress { background: #fef3c7; color: #b45309; }
+    .status-select.completed { background: #dcfce7; color: #15803d; }
+    .status-select.blocked { background: #ffe4e6; color: #9f1239; }
+
+    .memo-box {
+      width: 100%;
+      margin-top: 0.4rem;
+      font-size: 0.82rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      resize: vertical;
+      min-height: 38px;
+      background: #f8fafc;
+      transition: all 0.2s;
+    }
+
+    .memo-box:focus {
+      background: white;
+      border-color: var(--primary-light);
+      outline: none;
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    /* --------------------------------------------------------------------------
+       6. RIGHT SIDEBAR MODULES (SOP TIMELINE, SIMULATOR, FAQ)
+       -------------------------------------------------------------------------- */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.35rem;
+    }
+
+    /* Executive SOP Timeline Module */
+    .sop-card {
+      border-top: 4px solid var(--primary);
+    }
+
+    .sop-card h3 {
+      font-size: 0.95rem;
+      color: var(--bg-base);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 800;
+    }
+
+    .peak-time-box {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.83rem;
+      color: #1e40af;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.8);
+    }
+
+    .sop-steps {
+      list-style: none;
+      font-size: 0.82rem;
+      position: relative;
+    }
+
+    .sop-steps::before {
+      content: "";
+      position: absolute;
+      left: 0.6rem;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 2px;
+      background: #e2e8f0;
+    }
+
+    .sop-steps li {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .sop-steps li::before {
+      content: attr(data-step);
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: var(--primary);
+      color: white;
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 800;
+      box-shadow: 0 0 0 3px white, 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 1;
+    }
+
+    /* Executive Simulator Module */
+    .sim-card {
+      border-top: 4px solid var(--accent-rose);
+    }
+
+    .sim-card h3 {
+      font-size: 0.95rem;
+      color: var(--accent-rose);
+      margin-bottom: 0.85rem;
+      font-weight: 800;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .product-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .product-info {
+      flex: 1;
+      padding-right: 0.6rem;
+    }
+
+    .product-name {
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .product-price {
+      color: var(--text-sub);
+      font-size: 0.76rem;
+      margin-top: 0.1rem;
+    }
+
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: #f1f5f9;
+      padding: 0.2rem;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: white;
+      border-radius: 4px;
+      font-weight: 800;
+      cursor: pointer;
+      color: var(--text-main);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: background 0.15s;
+    }
+
+    .qty-btn:hover {
+      background: #e2e8f0;
+    }
+
+    .qty-input {
+      width: 28px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .sim-result {
+      background: #f8fafc;
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      font-size: 0.85rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .sim-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.35rem;
+    }
+
+    .sim-row.total {
+      border-top: 1px solid var(--border-color);
+      padding-top: 0.5rem;
+      margin-top: 0.4rem;
+      font-weight: 900;
+      font-size: 1rem;
+      color: var(--accent-rose);
+    }
+
+    /* Script & FAQ Accordion Module */
+    .faq-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 0.85rem;
+      font-weight: 800;
+    }
+
+    .script-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px dashed #86efac;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      margin-bottom: 1rem;
+      color: #14532d;
+      position: relative;
+    }
+
+    .script-copy-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.4rem;
+      background: white;
+      border: 1px solid #a7f3d0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 700;
+      color: #047857;
+    }
+
+    .script-copy-btn:hover {
+      background: #ecfdf5;
+    }
+
+    .accordion-item {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.45rem;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .accordion-header {
+      width: 100%;
+      text-align: left;
+      padding: 0.6rem 0.85rem;
+      background: white;
+      border: none;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-main);
+    }
+
+    .accordion-header:hover {
+      background: #f8fafc;
+    }
+
+    .accordion-icon {
+      transition: transform 0.2s ease;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .accordion-item.active .accordion-icon {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .accordion-content {
+      padding: 0.65rem 0.85rem;
+      font-size: 0.8rem;
+      color: var(--text-sub);
+      background: #f8fafc;
+      border-top: 1px solid var(--border-color);
+      display: none;
+      line-height: 1.45;
+    }
+
+    .accordion-item.active .accordion-content {
+      display: block;
+    }
+
+    /* Hidden File Input for Data Import */
+    #importFile {
+      display: none;
+    }
+
+    /* --------------------------------------------------------------------------
+       7. PRINT MEDIA QUERY (A4 OPTIMIZATION)
+       -------------------------------------------------------------------------- */
+    @media print {
+      body {
+        background: white;
+        color: black;
+        font-size: 10pt;
+      }
+
+      .header, .filter-section, .sidebar, .btn, .memo-box, .status-select {
+        display: none !important;
+      }
+
+      .container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .main-grid {
+        display: block;
+      }
+
+      .checklist-card {
+        break-inside: avoid;
+        border: 1px solid #ccc !important;
+        margin-bottom: 0.5rem;
+        box-shadow: none !important;
+      }
+
+      .card-bottom {
+        border-top: none;
+      }
+
+      .print-only-title {
+        display: block !important;
+        font-size: 16pt;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+    }
+
+    .print-only-title {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PRINT ONLY TITLE -->
+  <div class="print-only-title">
+    신세계리테일랩 냉장 간편식 프로모션 현장 점검표
+  </div>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand-title">
+        <span class="brand-logo">SHINSEGAE LAB</span>
+        <div>
+          <h1 class="header-title">냉장 간편식 프로모션 통합 웹 체크리스트</h1>
+          <div class="header-subtitle">센트럴점 · 리버점 · 파크점 3개점 실시간 운영 모니터링</div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <div class="dday-badge" id="ddayBadge">
+          <div class="live-dot"></div>
+          ⏳ <span>실시간 계산 중...</span>
+        </div>
+        <button class="btn btn-light" onclick="window.print()">🖨️ 인쇄</button>
+        <button class="btn btn-outline-light" onclick="exportJSON()">💾 백업</button>
+        <button class="btn btn-outline-light" onclick="triggerImport()">📂 복원</button>
+        <input type="file" id="importFile" accept=".json" onchange="importJSON(event)">
+        <button class="btn btn-danger" onclick="resetAllData()">🔄 초기화</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="container">
+
+    <!-- DASHBOARD GRID -->
+    <section class="dashboard-grid">
+      <!-- Card 1: Meta Info -->
+      <div class="card meta-card">
+        <h3>📌 프로모션 핵심 메타정보</h3>
+        <ul class="meta-list">
+          <li><span class="label">행사 기간</span> <span class="value">2026.09.04(금) ~ 09.10(목) [7일간]</span></li>
+          <li><span class="label">대상 점포</span> <span class="value">센트럴점 / 리버점 / 파크점</span></li>
+          <li><span class="label">대상 상품</span> <span class="value">냉장 간편식 핵심 6종 (KVI)</span></li>
+          <li><span class="label">행사 혜택</span> <span class="value">2개 이상 구매 시 10% 할인</span></li>
+          <li><span class="label">예산 상한</span> <span class="value">8,000,000원</span></li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Progress -->
+      <div class="card progress-section">
+        <div class="progress-header">
+          <span class="progress-title">전체 점검 진척률</span>
+          <span class="progress-percentage" id="overallPercent">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="overallBar"></div>
+        </div>
+        <div class="store-progress-grid">
+          <div class="store-progress-item">
+            <div class="store-name">센트럴점</div>
+            <div class="store-val" id="centralPercent">0%</div>
+          </div>
+          <div class="store-progress-item">
+            <div class="store-name">리버점</div>
+            <div class="store-val" id="riverPercent">0%</div>
+          </div>
+          <div class="store-progress-item">
+            <div class="store-name">파크점</div>
+            <div class="store-val" id="parkPercent">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Compliance -->
+      <div class="card compliance-card">
+        <h3>⚠️ 4대 절대 금지 사항 (Strict Compliance)</h3>
+        <ul class="compliance-list">
+          <li><strong>가격 임의 변경 금지</strong>: POS 본사 마스터 코드 외 수기 할인 금지</li>
+          <li><strong>고객 보상 약속 금지</strong>: 결품 시 직원의 독단적 금전/쿠폰 보상 금지</li>
+          <li><strong>외부 메일 자동 발송 금지</strong>: 협력사 소통 시 결재 공문만 활용</li>
+          <li><strong>파일 및 데이터 삭제 금지</strong>: 실적/결제로그 3년 보존 의무</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FILTER & SEARCH BAR -->
+    <section class="filter-section">
+      <div class="filter-group-row">
+        <!-- Search Input -->
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="검색어 입력 (항목명, 담당부서, 담당자...)" oninput="applyFilters()">
+        </div>
+
+        <!-- Store Filter Tabs -->
+        <div class="tab-group" id="storeTabs">
+          <button class="tab-btn active" data-store="all" onclick="setStoreFilter('all')">전체 점포</button>
+          <button class="tab-btn" data-store="central" onclick="setStoreFilter('central')">센트럴점</button>
+          <button class="tab-btn" data-store="river" onclick="setStoreFilter('river')">리버점</button>
+          <button class="tab-btn" data-store="park" onclick="setStoreFilter('park')">파크점</button>
+        </div>
+
+        <!-- Stage Select -->
+        <select class="select-filter" id="stageSelect" onchange="applyFilters()">
+          <option value="all">전체 일정 (D-14~당일)</option>
+          <option value="D-14">D-14</option>
+          <option value="D-7">D-7</option>
+          <option value="D-5">D-5</option>
+          <option value="D-3">D-3</option>
+          <option value="D-1">D-1</option>
+          <option value="D-DAY">D-Day 당일</option>
+        </select>
+
+        <!-- Category Select -->
+        <select class="select-filter" id="categorySelect" onchange="applyFilters()">
+          <option value="all">전체 카테고리</option>
+          <option value="scm">SCM·물류</option>
+          <option value="pos">IT·POS</option>
+          <option value="vmd">운영·VMD</option>
+          <option value="staff">인력·교육</option>
+          <option value="cs">CS·FAQ</option>
+          <option value="compliance">컴플라이언스</option>
+        </select>
+
+        <!-- Status Select -->
+        <select class="select-filter" id="statusSelect" onchange="applyFilters()">
+          <option value="all">전체 상태</option>
+          <option value="pending">미착수</option>
+          <option value="in_progress">진행중</option>
+          <option value="completed">완료</option>
+          <option value="blocked">이슈(지연)</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- MAIN GRID (LEFT: CHECKLIST / RIGHT: SIDEBAR) -->
+    <div class="main-grid">
+
+      <!-- LEFT: CHECKLIST LIST -->
+      <section>
+        <div class="checklist-header">
+          <h2 class="checklist-title">점검 실행 과제 <span id="itemCount">0</span></h2>
+        </div>
+
+        <div class="checklist-container" id="checklistContainer">
+          <!-- Dynamically populated via JS -->
+        </div>
+      </section>
+
+      <!-- RIGHT: SIDEBAR UTILITIES -->
+      <aside class="sidebar">
+
+        <!-- Peak Time & SOP Module -->
+        <div class="card sop-card">
+          <h3>⏱️ 피크타임 & 30분 보충 SOP</h3>
+          <div class="peak-time-box">
+            <strong>🔥 피크타임 집중 관리</strong><br>
+            • 점심: 11:30 ~ 13:30 (2인 전담)<br>
+            • 저녁: 17:00 ~ 20:00 (업셀링 강화)
+          </div>
+          <ol class="sop-steps">
+            <li data-step="1"><strong>30분 트리거</strong>: 쇼케이스 잔여량 30% 이하 시 즉시 감지</li>
+            <li data-step="2"><strong>풀 페이싱</strong>: 후방 창고 입고분 100% 진열 채움</li>
+            <li data-step="3"><strong>결품 3단계 대응</strong>:
+              <br>1) 후방 창고 즉시 진열
+              <br>2) 타점포 재고/2차입고(14:30) 안내
+              <br>3) 동급 정규 상품 대체 안내
+            </li>
+          </ol>
+        </div>
+
+        <!-- Multi-item Simulator -->
+        <div class="card sim-card">
+          <h3>🧮 다다익선 계산기 (10% 할인)</h3>
+          <p style="font-size: 0.78rem; color: var(--text-sub); margin-bottom: 0.85rem;">
+            2개 이상 구매 시 교차 적용 10% 자동 할인
+          </p>
+          <div class="product-list" id="productList">
+            <!-- Dynamically populated via JS -->
+          </div>
+          <div class="sim-result">
+            <div class="sim-row">
+              <span>총 수량:</span>
+              <span id="simTotalQty">0 개</span>
+            </div>
+            <div class="sim-row">
+              <span>정상 금액:</span>
+              <span id="simOriginalPrice">0 원</span>
+            </div>
+            <div class="sim-row" style="color: var(--accent-rose);">
+              <span>할인 금액 (10%):</span>
+              <span id="simDiscountPrice">-0 원</span>
+            </div>
+            <div class="sim-row total">
+              <span>최종 결제액:</span>
+              <span id="simFinalPrice">0 원</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Script & FAQ Module -->
+        <div class="card faq-card">
+          <h3>💬 현장 직원 스크립트 & FAQ</h3>
+          <div class="script-box">
+            <button class="script-copy-btn" onclick="copyScript()">복사</button>
+            <strong>📢 1개 구매 고객 업셀링 멘트:</strong><br>
+            <span id="scriptText">"고객님, 행사 상품 1개 더 선택하시면 전체 10% 할인이 적용되어 훨씬 알뜰하게 구매하실 수 있습니다!"</span>
+          </div>
+
+          <!-- Accordion FAQ -->
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Q1. 교차 구매 시에도 10% 되나요?</span>
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              네, 6종 중 서로 다른 상품을 2개 이상 선택하셔도 10% 할인이 동일하게 적용됩니다.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Q2. 3개 구매 시 할인은?</span>
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              2개 이상 구매 시 전체 금액에 대해 10% 할인이 적용되므로 3개 모두 10% 할인을 받습니다.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Q3. 포인트 및 카드 중복 할인은?</span>
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              신세계 포인트 적립 및 제휴카드 청구할인 등은 본 행사 10% 할인과 중복 적용 가능합니다.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Q4. 2개 구매 후 1개 환불 시?</span>
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              1개 환불 시 2개 이상 구매 조건이 해지되므로, 보유하신 1개 상품은 정상가로 재계산됩니다.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-header" onclick="toggleAccordion(this)">
+              <span>Q5. 품절 시 사전 예약 결제 가능한가요?</span>
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              냉장 신선식품 특성상 사전 예약 결제는 불가하며, 당일 14:30 2차 입고 시 수령 가능합니다.
+            </div>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </div>
+
+  </main>
+
+  <script>
+    /* --------------------------------------------------------------------------
+       1. INITIAL DEFAULT DATA & STATE
+       -------------------------------------------------------------------------- */
+    const STORAGE_KEY = "shinsegae_promo_checklist_v1";
+
+    // Products Data
+    const products = [
+      { id: 1, name: "[리테일랩] 직화 소불고기 덮밥 키트", price: 7900 },
+      { id: 2, name: "[리테일랩] 훈제오리 월남쌈 세트", price: 9900 },
+      { id: 3, name: "[리테일랩] 수비드 닭가슴살 샐러드 볼", price: 5500 },
+      { id: 4, name: "[리테일랩] 정통 바질페스토 쉬림프 파스타", price: 8400 },
+      { id: 5, name: "[리테일랩] 매콤 불맛 낙지볶음밥 키트", price: 6800 },
+      { id: 6, name: "[리테일랩] 프리미엄 수제 돈카츠 플래터", price: 8900 }
+    ];
+
+    // Initial Default Checklist Items
+    const defaultChecklist = [
+      {
+        id: "chk-01",
+        stage: "D-14",
+        category: "scm",
+        store: "all",
+        title: "협력사 대상 6종 원료 수급 및 6,000팩 추가 생산 확약서 징구",
+        description: "초도 물량 4,200팩 + 안전재고 1,800팩에 대한 협력사 공식 생산 캐파 계약 체결",
+        department: "MD/SCM팀",
+        manager: "김MD",
+        dueDate: "2026-08-21",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-02",
+        stage: "D-14",
+        category: "pos",
+        store: "all",
+        title: "POS 교차 10% 자동 할인 프로모션 마스터 코드 등록 및 사전 검증",
+        description: "2개 이상 교차 구매 시 10% 자동 차감 매핑 로직 본사 POS 서버 적용",
+        department: "IT팀",
+        manager: "박IT",
+        dueDate: "2026-08-21",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-03",
+        stage: "D-7",
+        category: "vmd",
+        store: "central",
+        title: "센트럴점 냉장 쇼케이스 메인 VMD 연출물 및 와블러 제작/배송",
+        description: "시선 집중 구간(골든존) 배치 연출 가이드 및 POP 12세트 전달 완료",
+        department: "운영·VMD팀",
+        manager: "이VMD",
+        dueDate: "2026-08-28",
+        priority: "HIGH",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-04",
+        stage: "D-7",
+        category: "vmd",
+        store: "river",
+        title: "리버점 냉장 쇼케이스 메인 VMD 연출물 및 와블러 제작/배송",
+        description: "리버점 매장 동선에 맞춘 냉장 연출물 세트 최종 배치 확인",
+        department: "운영·VMD팀",
+        manager: "이VMD",
+        dueDate: "2026-08-28",
+        priority: "HIGH",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-05",
+        stage: "D-7",
+        category: "vmd",
+        store: "park",
+        title: "파크점 냉장 쇼케이스 메인 VMD 연출물 및 와블러 제작/배송",
+        description: "파크점 신선식품 코너 전면 와블러 설치 가이드 확인",
+        department: "운영·VMD팀",
+        manager: "이VMD",
+        dueDate: "2026-08-28",
+        priority: "HIGH",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-06",
+        stage: "D-5",
+        category: "staff",
+        store: "all",
+        title: "피크타임 전담 인력(점포당 2명) 교육 및 응대 스크립트 숙지",
+        description: "11:30~13:30 / 17:00~20:00 업셀링 멘트 및 FAQ 5종 현장 직원 교육",
+        department: "인력·교육팀",
+        manager: "최교육",
+        dueDate: "2026-08-30",
+        priority: "HIGH",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-07",
+        stage: "D-3",
+        category: "scm",
+        store: "all",
+        title: "점포별 냉장 후방 창고 적재 공간 확보 및 온도 설정 점검",
+        description: "3개 점포 냉장 창고 온도 0~5℃ 유지 여부 및 안전재고 보관 구역 지정",
+        department: "점포 매니저",
+        manager: "점장 일동",
+        dueDate: "2026-09-01",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-08",
+        stage: "D-1",
+        category: "scm",
+        store: "central",
+        title: "센트럴점 초도 물량 1,400팩 입고 및 검품 완료",
+        description: "유통기한 확인, 입고 수량 수량 일치 여부 및 포장 상태 실사",
+        department: "센트럴점 점장",
+        manager: "정점장",
+        dueDate: "2026-09-03",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-09",
+        stage: "D-1",
+        category: "scm",
+        store: "river",
+        title: "리버점 초도 물량 1,400팩 입고 및 검품 완료",
+        description: "유통기한 확인, 입고 수량 일치 여부 및 포장 상태 실사",
+        department: "리버점 점장",
+        manager: "강점장",
+        dueDate: "2026-09-03",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-10",
+        stage: "D-1",
+        category: "scm",
+        store: "park",
+        title: "파크점 초도 물량 1,400팩 입고 및 검품 완료",
+        description: "유통기한 확인, 입고 수량 일치 여부 및 포장 상태 실사",
+        department: "파크점 점장",
+        manager: "윤점장",
+        dueDate: "2026-09-03",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-11",
+        stage: "D-DAY",
+        category: "pos",
+        store: "all",
+        title: "09:00 오픈 전 POS 할인 테스트 구매 수행 (교차 2개 테스트)",
+        description: "실제 테스트 결제 후 10% 자동 할인 적용 확인 및 영수증 취소 처리",
+        department: "IT / 캐셔팀",
+        manager: "POS담당",
+        dueDate: "2026-09-04",
+        priority: "CRITICAL",
+        completed: false,
+        status: "pending",
+        memo: ""
+      },
+      {
+        id: "chk-12",
+        stage: "D-DAY",
+        category: "vmd",
+        store: "all",
+        title: "30분 보충 진열 SOP 트리거 가동 상태 점검",
+        description: "쇼케이스 재고 30% 이하 시 후방 창고 풀 페이싱 작동 여부 1시간 단위 체크",
+        department: "현장 판매팀",
+        manager: "매장 매니저",
+        dueDate: "2026-09-04",
+        priority: "MEDIUM",
+        completed: false,
+        status: "pending",
+        memo: ""
+      }
+    ];
+
+    let items = [];
+    let currentStoreFilter = "all";
+    let quantites = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+
+    /* --------------------------------------------------------------------------
+       2. INITIALIZATION & LOCALSTORAGE
+       -------------------------------------------------------------------------- */
+    document.addEventListener("DOMContentLoaded", () => {
+      loadData();
+      initDDayCounter();
+      renderSimulator();
+      renderChecklist();
+      updateDashboard();
+    });
+
+    function loadData() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          items = JSON.parse(saved);
+        } catch (e) {
+          console.error("데이터 로드 실패:", e);
+          items = [...defaultChecklist];
+        }
+      } else {
+        items = [...defaultChecklist];
+      }
+    }
+
+    function saveData() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+      updateDashboard();
+    }
+
+    /* --------------------------------------------------------------------------
+       3. D-DAY REALTIME CLOCK (초단위)
+       -------------------------------------------------------------------------- */
+    function initDDayCounter() {
+      const targetDate = new Date("2026-09-04T00:00:00+09:00");
+      const endDate = new Date("2026-09-10T23:59:59+09:00");
+      const badge = document.getElementById("ddayBadge");
+
+      function updateCounter() {
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const minutes = Math.floor((diff / (1000 * 60)) % 60);
+          const seconds = Math.floor((diff / 1000) % 60);
+
+          const hStr = String(hours).padStart(2, '0');
+          const mStr = String(minutes).padStart(2, '0');
+          const sStr = String(seconds).padStart(2, '0');
+
+          badge.querySelector("span").innerText = `D-${days} ${hStr}:${mStr}:${sStr}`;
+        } else {
+          const endDiff = endDate - now;
+          if (endDiff > 0) {
+            const daysPassed = Math.floor(Math.abs(diff) / (1000 * 60 * 60 * 24)) + 1;
+            const hours = Math.floor((endDiff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((endDiff / (1000 * 60)) % 60);
+            const seconds = Math.floor((endDiff / 1000) % 60);
+
+            const hStr = String(hours).padStart(2, '0');
+            const mStr = String(minutes).padStart(2, '0');
+            const sStr = String(seconds).padStart(2, '0');
+
+            badge.querySelector("span").innerText = `행사 ${daysPassed}일차 (${hStr}:${mStr}:${sStr})`;
+          } else {
+            badge.querySelector("span").innerText = `프로모션 종료`;
+          }
+        }
+      }
+
+      updateCounter();
+      setInterval(updateCounter, 1000);
+    }
+
+    /* --------------------------------------------------------------------------
+       4. DASHBOARD & GAUGES
+       -------------------------------------------------------------------------- */
+    function updateDashboard() {
+      const total = items.length;
+      const completed = items.filter(i => i.completed).length;
+      const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+      document.getElementById("overallPercent").innerText = `${percent}%`;
+      document.getElementById("overallBar").style.width = `${percent}%`;
+
+      ["central", "river", "park"].forEach(store => {
+        const storeItems = items.filter(i => i.store === "all" || i.store === store);
+        const storeComp = storeItems.filter(i => i.completed).length;
+        const storePerc = storeItems.length === 0 ? 0 : Math.round((storeComp / storeItems.length) * 100);
+        
+        const storeIdMap = {
+          central: "centralPercent",
+          river: "riverPercent",
+          park: "parkPercent"
+        };
+        document.getElementById(storeIdMap[store]).innerText = `${storePerc}%`;
+      });
+    }
+
+    /* --------------------------------------------------------------------------
+       5. RENDER CHECKLIST & FILTERS
+       -------------------------------------------------------------------------- */
+    function setStoreFilter(store) {
+      currentStoreFilter = store;
+      const buttons = document.querySelectorAll("#storeTabs .tab-btn");
+      buttons.forEach(btn => {
+        if (btn.getAttribute("data-store") === store) {
+          btn.classList.add("active");
+        } else {
+          btn.classList.remove("active");
+        }
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const searchValue = document.getElementById("searchInput").value.toLowerCase();
+      const stageValue = document.getElementById("stageSelect").value;
+      const catValue = document.getElementById("categorySelect").value;
+      const statusValue = document.getElementById("statusSelect").value;
+
+      const filtered = items.filter(item => {
+        if (currentStoreFilter !== "all" && item.store !== "all" && item.store !== currentStoreFilter) {
+          return false;
+        }
+        if (stageValue !== "all" && item.stage !== stageValue) {
+          return false;
+        }
+        if (catValue !== "all" && item.category !== catValue) {
+          return false;
+        }
+        if (statusValue !== "all" && item.status !== statusValue) {
+          return false;
+        }
+        if (searchValue) {
+          const matchTitle = item.title.toLowerCase().includes(searchValue);
+          const matchDesc = item.description.toLowerCase().includes(searchValue);
+          const matchDept = item.department.toLowerCase().includes(searchValue);
+          const matchMgr = item.manager.toLowerCase().includes(searchValue);
+          if (!matchTitle && !matchDesc && !matchDept && !matchMgr) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      renderChecklist(filtered);
+    }
+
+    function renderChecklist(targetItems = items) {
+      const container = document.getElementById("checklistContainer");
+      document.getElementById("itemCount").innerText = targetItems.length;
+
+      if (targetItems.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding: 3rem 1.5rem; color: var(--text-muted); background: white; border-radius: var(--radius-md); border: 1px dashed var(--border-color);">
+            🔍 조건에 부합하는 점검 항목이 없습니다.
+          </div>
+        `;
+        return;
+      }
+
+      const storeNames = { all: "전체점포", central: "센트럴점", river: "리버점", park: "파크점" };
+      const catNames = { scm: "SCM/물류", pos: "IT/POS", vmd: "운영/VMD", staff: "인력/교육", cs: "CS/FAQ", compliance: "컴플라이언스" };
+
+      container.innerHTML = targetItems.map(item => `
+        <div class="checklist-card priority-${item.priority} status-${item.status} ${item.completed ? 'status-completed' : ''}" id="card-${item.id}">
+          <div class="card-top">
+            <label class="card-checkbox-label">
+              <input type="checkbox" class="card-checkbox" ${item.completed ? 'checked' : ''} onchange="toggleCheck('${item.id}', this.checked)">
+              <span class="item-title">${escapeHtml(item.title)}</span>
+            </label>
+            <div class="badge-group">
+              <span class="badge badge-stage">${item.stage}</span>
+              <span class="badge badge-cat">${catNames[item.category] || item.category}</span>
+              <span class="badge badge-store">${storeNames[item.store]}</span>
+              <span class="badge badge-${item.priority}">${item.priority}</span>
+            </div>
+          </div>
+          <div class="item-desc">${escapeHtml(item.description)}</div>
+          <div class="card-bottom">
+            <div class="item-meta-info">
+              <span>🏢 ${escapeHtml(item.department)}</span>
+              <span>👤 ${escapeHtml(item.manager)}</span>
+              <span>📅 기한: ${item.dueDate}</span>
+            </div>
+            <div>
+              <select class="status-select ${item.status}" onchange="changeStatus('${item.id}', this.value)">
+                <option value="pending" ${item.status === 'pending' ? 'selected' : ''}>미착수</option>
+                <option value="in_progress" ${item.status === 'in_progress' ? 'selected' : ''}>진행중</option>
+                <option value="completed" ${item.status === 'completed' ? 'selected' : ''}>완료</option>
+                <option value="blocked" ${item.status === 'blocked' ? 'selected' : ''}>이슈(지연)</option>
+              </select>
+            </div>
+            <textarea class="memo-box" placeholder="현장 특이사항 및 메모 입력 (자동 저장)" onchange="updateMemo('${item.id}', this.value)">${escapeHtml(item.memo || '')}</textarea>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleCheck(id, completed) {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        item.completed = completed;
+        item.status = completed ? 'completed' : 'pending';
+        saveData();
+        applyFilters();
+      }
+    }
+
+    function changeStatus(id, status) {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        item.status = status;
+        item.completed = (status === 'completed');
+        saveData();
+        applyFilters();
+      }
+    }
+
+    function updateMemo(id, memoText) {
+      const item = items.find(i => i.id === id);
+      if (item) {
+        item.memo = memoText;
+        saveData();
+      }
+    }
+
+    /* --------------------------------------------------------------------------
+       6. SIMULATOR LOGIC
+       -------------------------------------------------------------------------- */
+    function renderSimulator() {
+      const listEl = document.getElementById("productList");
+      listEl.innerHTML = products.map(p => `
+        <div class="product-item">
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">${p.price.toLocaleString()}원</div>
+          </div>
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(${p.id}, -1)">-</button>
+            <input type="text" class="qty-input" id="qty-${p.id}" value="${quantites[p.id]}" readonly>
+            <button class="qty-btn" onclick="changeQty(${p.id}, 1)">+</button>
+          </div>
+        </div>
+      `).join('');
+
+      calculateSim();
+    }
+
+    function changeQty(id, delta) {
+      const newQty = (quantites[id] || 0) + delta;
+      if (newQty >= 0) {
+        quantites[id] = newQty;
+        document.getElementById(`qty-${id}`).value = newQty;
+        calculateSim();
+      }
+    }
+
+    function calculateSim() {
+      let totalQty = 0;
+      let totalOriginal = 0;
+
+      products.forEach(p => {
+        const q = quantites[p.id] || 0;
+        totalQty += q;
+        totalOriginal += q * p.price;
+      });
+
+      let discountRate = totalQty >= 2 ? 0.1 : 0;
+      let discountAmt = Math.floor(totalOriginal * discountRate);
+      let finalPrice = totalOriginal - discountAmt;
+
+      document.getElementById("simTotalQty").innerText = `${totalQty} 개`;
+      document.getElementById("simOriginalPrice").innerText = `${totalOriginal.toLocaleString()} 원`;
+      document.getElementById("simDiscountPrice").innerText = `-${discountAmt.toLocaleString()} 원`;
+      document.getElementById("simFinalPrice").innerText = `${finalPrice.toLocaleString()} 원`;
+    }
+
+    /* --------------------------------------------------------------------------
+       7. UTILITIES & ACCORDION
+       -------------------------------------------------------------------------- */
+    function toggleAccordion(headerEl) {
+      const item = headerEl.parentElement;
+      item.classList.toggle("active");
+    }
+
+    function copyScript() {
+      const scriptText = document.getElementById("scriptText").innerText;
+      const tempTextArea = document.createElement("textarea");
+      tempTextArea.value = scriptText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(tempTextArea);
+      
+      const copyBtn = document.querySelector(".script-copy-btn");
+      copyBtn.innerText = "복사완료!";
+      setTimeout(() => {
+        copyBtn.innerText = "복사";
+      }, 1500);
+    }
+
+    function exportJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(items, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", `shinsegae_promo_checklist_${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    }
+
+    function triggerImport() {
+      document.getElementById("importFile").click();
+    }
+
+    function importJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const importedData = JSON.parse(e.target.result);
+          if (Array.isArray(importedData)) {
+            items = importedData;
+            saveData();
+            applyFilters();
+            alert("데이터가 성공적으로 복원되었습니다.");
+          } else {
+            alert("올바르지 않은 데이터 형식입니다.");
+          }
+        } catch (err) {
+          alert("JSON 파일을 읽는 중 오류가 발생했습니다.");
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function resetAllData() {
+      if (confirm("모든 체크리스트 상태와 메모가 초기화됩니다. 계속하시겠습니까?")) {
+        items = defaultChecklist.map(i => ({
+          ...i,
+          completed: false,
+          status: 'pending',
+          memo: ''
+        }));
+        saveData();
+        applyFilters();
+      }
+    }
+
+    function escapeHtml(text) {
+      if (!text) return "";
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
